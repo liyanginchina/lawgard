@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" href="css/frozen.css">
+    <link rel="stylesheet" href="css/global.css">
+    <title>证件信息</title>
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div class="photo"><img src="images/photo.jpg" id="headimg"></div>
+        <div class="header_right">
+            <p>昵称：<span id="nickname"></span></p>
+            <p class="vip" id="userflag"><span></span>普通会员</p>
+            <p>积分数：<span id="points"></span></p>
+        </div>
+    </div>
+</div>
+<!--<div class="title">证件信息</div>-->
+<div class="ui-tooltips-vip">
+    <div class="ui-tooltips-cnt">
+        <i class="ui-icon-collect"></i>
+        <span>证件信息</span>
+        <button class="ui-btn-vip" id="btn_save">保存</button>
+    </div>
+</div>
+<section class="ui-panel ">
+    <div class="ui-form ui-border-t">
+        <form action="#">
+
+            <div class="ui-form-item ui-border-b" style="display:none;">
+                <label>律师级别</label>
+                <div class="ui-select">
+                    <select id="levelselect">
+                        <option value="0" selected>请选择</option>
+                        <option value="8">初级律师</option>
+                        <option value="9">中级律师</option>
+                        <option value="10">高级律师</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-item ui-border-b" style="display:none;">
+                <label>律师类别</label>
+                <div class="ui-select">
+                    <select id="typeselect">
+                        <option value="0" selected>请选择</option>
+                        <option value="23">律师菜鸟</option>
+                        <option value="2">劳动权益</option>
+                        <option value="3">婚姻生活</option>
+                        <option value="4">租房住房</option>
+                        <option value="5">交通侵权</option>
+                        <option value="6">投资创业</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>执业方向</label>
+                <div class="ui-select">
+                    <select id="professionselect">
+                        <option value="0" selected>请选择</option>
+                        <option value="1">个人律师</option>
+                        <option value="2">企业律师</option>
+                        <option value="3">专项律师</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    执业机构
+                </label>
+                <input type="text" placeholder="请输入执业机构名称" id="lawyerorg">
+                </a>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    执业证号
+                </label>
+                <input type="text" placeholder="请输入执业证号" id="lawyerno">
+                </a>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    资格证号
+                </label>
+                <input type="text" placeholder="请输入资格证号" id="licenceno">
+                </a>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>执业年限</label>
+                <div class="ui-select">
+                    <select id="workyearsselect">
+                        <option value="0" selected>0年</option>
+                        <option value="1">1年</option>
+                        <option value="2">2年</option>
+                        <option value="3">3年</option>
+                        <option value="4">4年</option>
+                        <option value="5">5年</option>
+                        <option value="6">6年</option>
+                        <option value="7">7年</option>
+                        <option value="8">8年</option>
+                        <option value="9">9年</option>
+                        <option value="10">10年</option>
+                        <option value="11">10年以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-item ui-border-b" style="display:none;">
+                <label>发证日期</label>
+                <div class="ui-select-group">
+                    <div class="ui-select">
+                        <select id="yearselect">
+                            <option>2014</option>
+                            <option>2015</option>
+                            <option>2016</option>
+                        </select>
+                    </div>
+                    <div class="ui-select">
+                        <select id="monthselect">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                        </select>
+                    </div>
+                    <div class="ui-select">
+                        <select id="dayselect">
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!--<a href="javascript:void(0)" class="button">保存</a>-->
+</body>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script src="js/layerjs/layer.js"></script>
+<script>
+    var userid = $.query.get('userid');
+    var layer = new Layer();
+    layer.getuser({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#nickname').text(data.data.nickname);
+                $('#userflag').html('<span></span>' + data.data.userflag);
+                $('#points').text(data.data.points);
+                $('#headimg').attr('src', data.data.headimgurl);
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    $('#dayselect').html('');
+    for (var i = 1; i < 32; i++) {
+        $('#dayselect').append('<option value=' + i + '>' + i + '</option>');
+    }
+
+
+    layer.getlawyerinfo({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#lawyerno').val(data.data.lawyerno);
+                $('#lawyerorg').val(data.data.lawyerorg);
+                $('#licenceno').val(data.data.licenceno);
+                /*   $('#levelselect option[value="'+data.data.levelid+'"]').attr("selected", true);
+                 $('#typeselect option[value="'+data.data.typeid+'"]').attr("selected", true);*/
+                $('#levelselect').val(parseInt(data.data.levelid));
+                $('#typeselect').val(parseInt(data.data.typeid));
+
+                $('#professionselect').val(parseInt(data.data.profession));
+                $('#workyearsselect').val(parseInt(data.data.workyears));
+
+                var licencedate = data.data.licencedate;
+                var array = licencedate.split('-');
+                /*  var date=new Date(licencedate+" 00:00:00");
+                 //console.log(parseInt(date.getFullYear())+"-"+date.getMonth()+"-"+date.getDay());
+                 $('#yearselect').val(parseInt(date.getFullYear()));
+                 $('#monthselect').val(parseInt(date.getMonth()));
+                 $('#dayselect').val(parseInt(date.getDay()));*/
+                if (array.length == 3) {
+                    $('#yearselect').val(parseInt(array[0]));
+                    $('#monthselect').val(parseInt(array[1]));
+                    $('#dayselect').val(parseInt(array[2]));
+                }
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    //保存律师证件信息
+    $('#btn_save').click(function () {
+        var _data = {};
+        _data.userid = userid;
+        _data.levelid = $('#levelselect').val();
+        _data.typeid = $('#typeselect').val();
+        _data.lawyerorg = $('#lawyerorg').val();
+        _data.lawyerno = $('#lawyerno').val();
+        _data.licenceno = $('#licenceno').val();
+        _data.licencedate = $('#yearselect').val() + '-' + $('#monthselect').val() + '-' + $('#dayselect').val();
+
+        _data.profession = $('#professionselect').val();
+        _data.workyears = $('#workyearsselect').val();
+
+        layer.updatelawyerinfo(_data, {
+            callback: function (data) {
+                if (data.msgCode === 250) {
+                    alert('修改成功');
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
+
+</script>
+</html>

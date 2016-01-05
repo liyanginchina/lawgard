@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>训练营</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+
+    <style>
+        .a_color {
+            color: #3d4145;
+        }
+
+        .swiper-container {
+            padding-bottom: 0px;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div class="page page-current" id='router'>
+    <nav class="bar bar-tab">
+        <a class="tab-item external active" href="javascript:void(0);">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">训练营</span>
+        </a>
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-clock"></span>
+            <span class="tab-label">微课堂</span>
+        </a>
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-app"></span>
+            <span class="tab-label">图书馆</span>
+        </a>
+    </nav>
+
+
+    <header class="bar bar-nav">
+        <h1 class="title">训练营</h1>
+    </header>
+
+    <div class="content">
+        <div class="swiper-container" data-space-between='10'>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads4.jpg" alt="" style='width: 100%'></div>
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads5.jpg" alt="" style='width: 100%'></div>
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads6.jpg" alt="" style='width: 100%'></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="card" data-userflag="1">
+            <div class="card-header">VIP初级会员</div>
+            <div class="card-content">
+                <div class="card-content-inner">初级律师（私人法律顾问）：传授劳动权益、婚姻家庭、交通侵权、租房购房和投资创业五大领域非诉及诉讼实务处理技能
+                </div>
+            </div>
+        </div>
+        <div class="card" data-userflag="2">
+            <div class="card-header">VIP中级会员</div>
+            <div class="card-content">
+                <div class="card-content-inner">传授企业法律风险尽职调查，日常法律事务咨询、合同管理、公司治理、债权债务纠纷、股权协议、股权期权激励等非诉和诉讼实务处理技能</div>
+            </div>
+        </div>
+        <div class="card" data-userflag="3">
+            <div class="card-header">VIP高级会员</div>
+            <div class="card-content">
+                <div class="card-content-inner">
+                    高级律师课程介绍:传授高级企业法律顾问处理经验，法律实务处理艺术与智慧，以天理、国法和人情之道解决重大疑难案件，完成不可能的任务或选择专项律师：传授高端知识产权、企业天使轮到AB轮投融资协议及法律风险防控服务；企业上市、并购等非诉和及诉讼实务处理
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/layerjs/layer.js"></script>
+<script>
+
+    $(function () {
+
+
+        $.init();
+
+
+        //$.swiper($('.swiper-container'), {loop:true,autoplay:3000,lazyLoading: true});
+
+        //业务逻辑实现
+        var layer = new Layer();
+
+        var params = layer.getparams();
+        var uid = params["userid"];
+
+        var userflag = params["userflag"];
+
+        $('.card').click(function () {
+            var _userflag = $(this).attr('data-userflag');
+
+            var levelid = 0;
+            switch (_userflag) {
+                case "1":
+                    levelid = 14;
+                    break;
+                case "2":
+                    levelid = 15;
+                    break;
+                case "3":
+                    levelid = 16;
+                    break;
+            }
+            var token = params['token'];
+
+            if (userflag == 3) {
+                //高级 所有等级均可访问
+                location.href = 'practiselist.html?token=' + params['token'] + "&levelid=" + levelid + "&userid=" + uid;
+            } else if (userflag == 2) {
+                //中级 仅初、中等级均可访问
+                switch (_userflag) {
+                    case "1":
+                        location.href = 'practiselist.html?token=' + params['token'] + "&levelid=" + levelid + "&userid=" + uid;
+                        break;
+                    case "2":
+                        location.href = 'practiselist.html?token=' + params['token'] + "&levelid=" + levelid + "&userid=" + uid;
+                        break;
+
+                    case "3":
+                        $.toast('您还不是VIP高级会员！');
+                        break;
+                }
+            } else if (userflag == 1) {
+                //仅初级可访问
+                switch (_userflag) {
+                    case "1":
+                        location.href = 'practiselist.html?token=' + params['token'] + "&levelid=" + levelid + "&userid=" + uid;
+                        break;
+                    case "2":
+                        $.toast('您还不是VIP中级会员！');
+                        break;
+
+                    case "3":
+                        $.toast('您还不是VIP高级会员！');
+                        break;
+                }
+            } else {
+                switch (_userflag) {
+                    case "1":
+                        $.toast('您还不是VIP初级会员！');
+                        break;
+                    case "2":
+                        $.toast('您还不是VIP中级会员！');
+                        break;
+                    case "3":
+                        $.toast('您还不是VIP高级会员！');
+                        break;
+                }
+            }
+
+            /*if(userflag!=_userflag){
+             switch (_userflag){
+             case "1":$.toast('您还不是VIP初级会员！');break;
+             case "2":$.toast('您还不是VIP中级会员！');break;
+             case "3":$.toast('您还不是VIP高级会员！');break;
+             }
+
+             }else {
+             var levelid=0;
+             switch (_userflag){
+             case "1":levelid=14;break;
+             case "2":levelid=15;break;
+             case "3":levelid=16;break;
+             }
+
+             var token=params['token'];
+             location.href = 'practiselist.html?token='+params['token']+"&levelid="+levelid+"&userid="+uid;
+             }*/
+        });
+
+
+        $('.tab-item').click(function () {
+            if ($(this).hasClass('active')) {
+                return;
+            } else {
+                var idx = $(this).index();
+                switch (idx) {
+                    case 0:
+                        location.href = "lawyerschool.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                        break;
+                    case 1:
+                        location.href = "minicourses.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                        break;
+                    case 2:
+                        location.href = "library.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                        break;
+                }
+            }
+        });
+    });
+
+    /*  layer.getuser({userid:uid},{callback: function (data) {
+     if(data.msgCode===300){
+     alert(data);
+     }else{
+     alert(data.message);
+     }
+     }});*/
+
+</script>
+</body>
+</html>

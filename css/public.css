@@ -1,0 +1,294 @@
+/* CSS Document */
+html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a:link {
+    text-decoration: none;
+    outline: none;
+    color: #383838;
+}
+
+a:visited {
+    text-decoration: none;
+    outline: none;
+    color: #383838;
+}
+
+a:hover {
+    text-decoration: none;
+    outline: none;
+    color: #383838;
+}
+
+a:active {
+    text-decoration: none;
+    outline: none;
+    color: #383838;
+}
+
+ul, li {
+    list-style: none;
+}
+
+p {
+    margin: 0px;
+}
+
+body {
+    background: #f0eff5;
+}
+
+body, div, ul, dl, dt, form, input, h1, h2, h3, label, button, textarea, img {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+    color: #383838;
+    cursor: default;
+    border: none;
+    border: 0;
+    font-size: 14px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+input::-ms-clear,
+input::-ms-reveal {
+    display: block;
+}
+
+.test {
+    border: 1px solid #000 !important;
+}
+
+select {
+    -webkit-appearance: none;
+}
+
+/*********字体*********/
+.font13 {
+    font-size: 13px;
+}
+
+.font14 {
+    font-size: 14px !important;
+}
+
+.font15 {
+    font-size: 15px;
+}
+
+.font16 {
+    font-size: 16px !important;
+}
+
+.font17 {
+    font-size: 17px;
+}
+
+.font18 {
+    font-size: 18px;
+}
+
+.font20 {
+    font-size: 20px;
+}
+
+.font22 {
+    font-size: 22px;
+}
+
+.font24 {
+    font-size: 24px;
+}
+
+.font30 {
+    font-size: 30px;
+}
+
+.fontW {
+    font-weight: bold;
+}
+
+/*********边框*********/
+.border {
+    border: 1px solid #dcdcdc;
+}
+
+.border_t {
+    border-top: 1px solid #dcdcdc;
+}
+
+.border_b {
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.border_r {
+    border-right: 1px solid #dcdcdc;
+}
+
+.border_l {
+    border-left: 1px solid #dcdcdc;
+}
+
+.border_t_b {
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.border_radius {
+    border-radius: 5px
+}
+
+.border_none {
+    border: none !important;
+}
+
+/*********字体颜色*********/
+
+/*********间距*********/
+.mt20 {
+    margin-top: 20px;
+}
+
+/**********背景颜色***************/
+
+/*********公共样式*********/
+
+.hAuto {
+    height: auto !important;
+}
+
+.wAuto {
+    width: auto !important;
+}
+
+.width10 {
+    width: 10% !important;
+}
+
+.width20 {
+    width: 12% !important;
+}
+
+.width30 {
+    width: 30% !important;
+}
+
+.width40 {
+    width: 40% !important;
+}
+
+.width45 {
+    width: 45% !important;
+}
+
+.width50 {
+    width: 50% !important;
+}
+
+.width55 {
+    width: 55% !important;
+}
+
+.width60 {
+    width: 60% !important;
+}
+
+.width70 {
+    width: 70% !important;
+}
+
+.width80 {
+    width: 80% !important;
+}
+
+.width90 {
+    width: 90% !important;
+}
+
+.width100 {
+    width: 100% !important;
+}
+
+.dis {
+    display: block;
+}
+
+.dis_none {
+    display: none;
+}
+
+.Outline {
+    outline: none;
+}
+
+.posre {
+    position: relative;
+}
+
+/*相对定位 */
+.fl {
+    float: left;
+}
+
+/*左浮动*/
+.fr {
+    float: right;
+}
+
+/*右浮动*/
+.clear {
+    clear: both;
+}
+
+/*清除浮动*/
+.text1 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/*文本显示1行*/
+.text2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    overflow: hidden;
+}
+
+/*文本显示2行*/
+.text_left {
+    text-align: left;
+}
+
+/*文本左对齐*/
+.tam {
+    text-align: center;
+}
+
+/*文本水平居中*/
+.vam {
+    vertical-align: middle;
+}
+
+/*文本垂直居中*/
+/*公共样式*/
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>会员-会费支付</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+
+<header class="bar bar-nav">
+    <h1 class="title">初级会员-所需积分</h1>
+</header>
+
+<div class="content">
+    <div class="card">
+        <div class="card-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" class="item-content">
+                            <div class="item-media"><i class="icon"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span>50积分</span>
+                                    <span style="font-size: 0.5rem;color: #a6a6a6;">0.25折</span>
+                                </div>
+                                <span style="float:right;margin-right: 1.1rem;"><font size="2pt">
+                                    <lable>限100人&nbsp;剩</lable>
+                                    <label style="color:red;">100</label></font></span>
+                                <span class="button button-fill" style="float:right;margin-right: 0.1rem;">购买</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" class="item-content">
+                            <div class="item-media"><i class="icon"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span>200积分</span>
+                                    <span style="font-size: 0.5rem;color: #a6a6a6;">1折</span>
+                                </div>
+                                <span style="float:right;margin-right: 1.1rem;"><font size="2pt">
+                                    <lable>限200人&nbsp;剩</lable>
+                                    <label style="color:red;">200</label></font></span>
+                                <span class="button button-fill" style="float:right;margin-right: 0.1rem;">购买</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" class="item-content">
+                            <div class="item-media"><i class="icon"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span>600积分</span>
+                                    <span style="font-size: 0.5rem;color: #a6a6a6;">3折</span>
+                                </div>
+                                <span style="float:right;margin-right: 1.1rem;"><font size="2pt">
+                                    <lable>限500人&nbsp;剩</lable>
+                                    <label style="color:red;">500</label></font></span>
+                                <span class="button button-fill" style="float:right;margin-right: 0.1rem;">购买</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" class="item-content">
+                            <div class="item-media"><i class="icon"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    <span>2000积分</span>
+                                    <span style="font-size: 0.5rem;color: #a6a6a6;">全价</span>
+                                </div>
+                                <span style="float:right;margin-right: 1.1rem;">不限</span>
+                                <span class="button button-fill" style="float:right;margin-right: 0.1rem;">购买</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="js/layerjs/layer.js"></script>
+<script>
+    $(function () {
+        var layer = new Layer();
+        var params = layer.getparams();
+        var uid = params['userid'];
+        var points = params['points'];
+
+
+        var html = '';
+
+        layer.getshopuserflag(null, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    if (data.data != null) {
+                        $.each(data.data, function (idx, item) {
+                            var limitHtml = '<font size="2pt"><lable>限' + item.limitnum + '人&nbsp;剩</lable><label style="color:red;">' + (parseInt(item.limitnum) - parseInt(item.buynum)) + '</label></font>';
+                            if (idx === 3) {
+                                limitHtml = '不限';
+                            }
+
+                            var percent = '';
+                            switch (idx) {
+                                case 0:
+                                    percent = '0.25折';
+                                    break;
+                                case 1:
+                                    percent = '1折';
+                                    break;
+                                case 2:
+                                    percent = '3折';
+                                    break;
+                                case 3:
+                                    percent = '全价';
+                                    break;
+                            }
+                            if (item.userflag === 1) {
+                                html += '<div class="card" data-id="' + item.id + '">' +
+                                        '<div class="card-content">' +
+                                        '<div class="list-block">' +
+                                        '<ul>' +
+                                        '<li>' +
+                                        '<a href="javascript:void(0);" class="item-content">' +
+                                        '<div class="item-media"><i class="icon"></i></div>' +
+                                        '<div class="item-inner">' +
+                                        '<div class="item-title">' +
+                                        '<span>' + item.points + '积分</span>' +
+                                        '<span style="font-size: 0.5rem;color: #a6a6a6;">' + percent + '</span>' +
+                                        '</div>' +
+                                        '<span style="float:right;margin-right: 1.1rem;">' + limitHtml + '</span>' +
+                                        '<span class="button button-fill" style="float:right;margin-right: 0.1rem;" data-points="' + item.points + '" data-id="' + item.id + '">购买</span>' +
+                                        '</div>' +
+                                        '</a>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+                            }
+                        });
+
+                        $('.content').html(html);
+                    }
+                } else {
+                    $.toast(data.message);
+                }
+            }
+        });
+
+
+        $('.button').live('click', function () {
+            var shopuserflagid = $(this).attr('data-id');
+            $.confirm('该课程需要积分：' + $(this).attr('data-points') + '，您当前积分值为' + points + '，是否确定购买？', '温馨提示', function () {
+
+                layer.buyuserflag({userid: uid, shopuserflagid: shopuserflagid}, {
+                    callback: function (data) {
+                        if (data.msgCode === 350) {
+                            if (data.data != null) {
+                                location.href = 'mine.html?userid=' + uid;
+                            }
+                        } else {
+                            $.toast(data.message);
+                        }
+                    }
+                });
+
+            });
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>会员活动</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no;">
+
+    <link rel="stylesheet" href="css/sm.min.css">
+    <link rel="stylesheet" href="css/sm-extend.min.css">
+    <style>
+        .wrap {
+            word-break: keep-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /*  padding: 0.4rem .75rem;min-height: auto;*/
+        }
+    </style>
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script type='text/javascript' src="js/layerjs/layer.js"></script>
+
+<div class="content" id="divList">
+    <div id="divItem" onclick="divItemClick(this)" class="card demo-card-header-pic" style="display:none;"
+         data-url="http://mp.weixin.qq.com/s?__biz=MzIyOTEyNTczMA==&mid=400575113&idx=1&sn=919094aa51b70915ffc065351317b56e&scene=1&srcid=1213zIpwt3T0NaFG2qthdGAU#wechat_redirect">
+        <div id="divTitle" class="card-header wrap">未来的趋势，让所有老板都胆战心惊,文字过多自动省略</div>
+        <div valign="bottom" class="card-header color-white no-border no-padding">
+            <img id="imgPic" class='card-cover' src="http://placeholder.qiniudn.com/300x160" alt="">
+        </div>
+        <div class="card-content">
+            <div class="card-content-inner">
+                <p id="pTxt">国内一位很著名的大师说过：“趋势就像一匹马，如果在马后面追，你永远都追不上，你只有骑在马上面，才能和马一”</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a id="aDate" href="javascript:void(0);" class="link">2015/12/14</a>
+            <a id="aMore"
+               href="http://mp.weixin.qq.com/s?__biz=MzIyOTEyNTczMA==&mid=400575113&idx=1&sn=919094aa51b70915ffc065351317b56e&scene=1&srcid=1213zIpwt3T0NaFG2qthdGAU#wechat_redirect"
+               class="link">查看全文</a>
+        </div>
+    </div>
+    <div style="text-align: center;padding-top: 10px; display: none;" id="tips">暂无内容</div>
+</div>
+</body>
+<script>
+    function divItemClick(obj) {
+        location.href = $(obj).attr('data-url');
+    }
+    $(function () {
+        var layer = new Layer();
+        var g_courseid = '';
+
+        var pageno = 1;
+        var pagesize = 10;
+
+        getactivitylist('25', false);
+
+        function getactivitylist(typeid, append) {
+            $('#tips').hide();
+            if (!append) {
+                $('#divList dl:gt(0)').remove();
+            }
+            layer.getactivitylist({typeid: typeid, pagesize: pagesize, pageno: pageno}, {
+                callback: function (data) {
+                    if (data.msgCode === 400) {
+                        if (data.data != null && data.data.datalist != null) {
+                            if (data.data.datalist.length > 0) {
+                                $(data.data.datalist).each(function (idx, item) {
+                                    var list = $('#divItem').clone();
+                                    if (item.imgUrl != null && item.imgUrl.length > 0) {
+                                        list.find('.card-cover').attr('src', item.imgUrl);
+                                    }
+                                    list.find('#divTitle').html(item.title);
+                                    list.attr('data-url', item.htmlUrl);
+                                    list.find('#pTxt').html(item.summary);
+                                    list.find('#aDate').html(item.openDate);
+                                    list.find('#aMore').attr('href', item.htmlUrl);
+                                    list.appendTo($('#divList')).show();
+                                });
+
+                            }
+                        }
+                    }
+                    else if (data.msgCode === 401) {
+                        $('#tips').show();
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+    });
+</script>
+</html>

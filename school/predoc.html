@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>pdf预览</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/docstyle.css">
+
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div id="content" class="page">
+    <div id="doccontainer" class="list">
+        <img id="img1" src="" data-page="1"></div>
+</div>
+</body>
+
+<script src="../js/layerjs/layer.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var layer = new Layer();
+        var params = layer.getparams();
+        var token = params['token'];
+        var bookid = params['bookid'];
+
+
+        img1.onload = function () {
+            $.hidePreloader();
+        }
+
+        var opts = {
+            imgDirectory: "images/",
+            lastDocNum: 37,
+            fileType: "jpg"
+        };
+
+        getbookparams(opts);
+
+        function getImgId(v) {
+            v = v + '';
+            while (v.length < 4) {
+                v = '0' + v;
+            }
+            return v;
+        }
+
+        // Constructs the image file name.
+        function getFile(n) {
+            return n + '.' + opts.fileType;
+        }
+
+        /*
+         * 获取电子书相关参数
+         * */
+        function getbookparams(opts) {
+            layer.getorderbookimg({token: token, bookid: bookid}, {
+                callback: function (data) {
+                    if (data.msgCode === 400) {
+                        //日志记录
+                        layer.savebookrecord({token: token, bookid: bookid}, {
+                            callback: function (_data) {
+                            }
+                        });
+
+                        //初始化参数
+                        opts.imgDirectory = data.data.imgdir;
+                        opts.fileType = data.data.imgtype;
+                        opts.lastDocNum = data.data.totalpages;
+
+                        // console.log(data.data);
+                        $('#img1').attr("src", opts.imgDirectory + "0001." + opts.fileType);
+
+                    } else {
+                        $.toast(data.message);
+                    }
+                }
+            });
+        }
+
+        function goPage(type) {
+            var $docImage = $("#img1");
+            var currentId = $docImage.attr('data-page'),
+                    nextImgSrc = opts.imgDirectory;
+
+            if (type == 'backpage') {
+                var nextImgId = parseInt(currentId) - 1;
+            } else if (type == 'forwardpage') {
+                var nextImgId = parseInt(currentId) + 1;
+            }
+
+            if ((currentId == opts.lastDocNum && $type == 'forwardpage') ||
+                    (currentId == 1 && type == 'backpage')) {
+                return false;
+            }
+
+            $.showPreloader();
+
+            nextImgSrc += getFile(getImgId(nextImgId));
+            $docImage.attr('data-page', nextImgId);
+            $docImage.attr('src', nextImgSrc);
+        }
+
+        //获取屏幕宽度
+        var width = screen.width;
+        console.log("clientWidth=" + width + "   availWidth=" + screen.width);
+
+
+        var halfWidth = width / 2;
+        $('html').click(function (ev) {
+            var oEvent = ev || event;
+            var oLeft = oEvent.clientX;
+            var oTop = oEvent.clientY;
+            console.log(oLeft + ',' + oTop + ',halfWidth=' + halfWidth)
+
+            if (oLeft < halfWidth) {
+                goPage("backpage");
+            } else {
+                goPage("forwardpage");
+            }
+        });
+    });
+</script>
+</html>

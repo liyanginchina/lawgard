@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>会员训练营</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+    <style>
+        .swiper-container {
+            padding-bottom: 0px;
+        }
+
+        .list-block .item-content {
+            padding-left: 0.1rem;
+        }
+
+        .list-block .item-media + .item-inner {
+            margin-left: .3rem;
+        }
+
+        .list-block .item-link .item-inner {
+            padding-right: 0.2rem;
+            background-image: none;
+        }
+
+        .list-block {
+            margin: 0.3rem 0;
+        }
+
+        .card-footer {
+            min-height: 0rem;
+            position: static;
+            padding: 0.2rem .5rem;
+            margin-top: 0.4rem;
+            font-size: .7rem;
+        }
+    </style>
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div class="page" id='router_practiselist'>
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="lawyerschool.html">
+            <span class="icon icon-left"></span>
+            返回
+        </a>
+        <!--    <a class="icon icon-refresh pull-right"></a>-->
+        <h1 class="title"></h1>
+    </header>
+
+    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="100">
+
+
+        <div class="list_lib">
+            <!--<div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+
+        <!-- 加载提示符 -->
+        <div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/layerjs/layer.js"></script>
+<script>
+    $.init();
+
+    var layer = new Layer();
+
+    var params = layer.getparams();
+    var token = params['token'];
+    var levelid = params['levelid'];
+    var uid = params['userid'];
+
+    switch (levelid) {
+        case '14':
+            $('.title').html('VIP初级会员');
+            break;
+        case '15':
+            $('.title').html('VIP中级会员');
+            break;
+        case '16':
+            $('.title').html('VIP高级会员');
+            break;
+    }
+    //当前页
+    var pageno = 1;
+
+    //页大小
+    var pagesize = 5;
+
+    //总页数
+    var pagetotal = 0;
+
+    // 加载flag
+    var loading = false;
+
+    function addItems() {
+        // 生成新条目的HTML
+        var html = '';
+
+        layer.getvipcourse({token: token, levelid: levelid, pageno: pageno, pagesize: pagesize}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    pagetotal = data.data.pagetotal;
+
+                    if (data.data != null && data.data.datalist != null) {
+                        if (data.data.datalist.length > 0) {
+                            $(data.data.datalist).each(function (idx, item) {
+                                html += '<div class="list-block media-list confirm-title-ok" data-courseid="' + item.courseid + '" data-filetype="' + item.filetype + '">' +
+                                        '<ul>' +
+                                        '<li>' +
+                                        '<a href="#" class="item-link item-content">' +
+                                        '<div class="item-media"><img src="' + item.imgurl + '" style="width: 6rem;height: 4rem;"></div>' +
+                                        '<div class="item-inner">' +
+                                        '<div class="item-text">' + item.title + '</div>' +
+                                        '<div class="card-footer">' +
+                                        '<span class="icon icon-clock">' + item.duration + '</span>' +
+                                        '<span class="icon icon-me">' + item.totalhits + '</span>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</a>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>';
+                            });
+                            // 添加新条目
+                            $('.infinite-scroll-bottom .list_lib').append(html);
+
+                            if (pageno > pagetotal) {
+                                // 加载完毕，则注销无限加载事件，以防不必要的加载
+                                $.detachInfiniteScroll($('.infinite-scroll'));
+                                // 删除加载提示符
+                                $('.infinite-scroll-preloader').remove();
+                                return;
+                            }
+
+                            pageno = pageno + 1;
+
+                            // 重置加载flag
+                            loading = false;
+                        }
+                    }
+
+
+                } else {
+                    $.detachInfiniteScroll($('.infinite-scroll'));
+                    $('.infinite-scroll-preloader').remove();
+                    $.toast(data.message);
+                    //alert(data.message);
+                }
+            }
+        });
+
+
+    }
+    //预先加载20条
+    addItems();
+
+
+    // 注册'infinite'事件处理函数
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+
+        // 如果正在加载，则退出
+        if (loading) return;
+
+        // 设置flag
+        loading = true;
+
+
+        if (pageno >= pagetotal) {
+            // 加载完毕，则注销无限加载事件，以防不必要的加载
+            $.detachInfiniteScroll($('.infinite-scroll'));
+            // 删除加载提示符
+            $('.infinite-scroll-preloader').remove();
+            return;
+        }
+
+        // 添加新条目
+        addItems();
+        // 更新最后加载的序号
+        lastIndex = $('.list-block').length;
+        //console.log(lastIndex);
+        //容器发生改变,如果是js滚动，需要刷新滚动
+        $.refreshScroller();
+
+    });
+
+    $('.list-block').live('click', function () {
+        var filetype = $(this).attr('data-filetype');
+        var courseid = $(this).attr('data-courseid');
+
+        //获取资源链接地址
+
+        layer.getvipcourseurl({token: token, courseid: courseid}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    var fileurl = data.data;
+
+                    //图文
+                    if (filetype == '1') {
+                        //日志记录
+                        layer.savecourserecord({userid: uid, courseid: courseid}, {
+                            callback: function (data) {
+
+                            }
+                        });
+                        location.href = fileurl;
+                    }
+                    //视频
+                    else if (filetype == '2') {
+                        location.href = 'video.html?userid=' + uid + '&courseid=' + courseid + '&fileurl=' + fileurl;
+                    }
+
+                }
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

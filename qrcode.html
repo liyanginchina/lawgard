@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" href="css/frozen.css">
+    <link rel="stylesheet" href="css/global.css">
+    <title>成为会员</title>
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div class="photo"><img src="images/photo.jpg" id="headimg"></div>
+        <div class="header_right">
+            <p>昵称：<span id="nickname"></span></p>
+            <p class="vip" id="userflag"><span></span>普通会员</p>
+            <p>积分数：<span id="points"></span></p>
+        </div>
+    </div>
+</div>
+<div class="ui-tooltips-vip">
+    <div class="ui-tooltips-cnt">
+        <i class="ui-icon-emo"></i>
+        <span>我的邀请码</span>
+        <!--<button class="ui-btn-vip">保存</button>-->
+    </div>
+</div>
+<!-- <div class="title">基本信息</div>-->
+<section class="ui-panel ">
+    <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    我的邀请码
+                </label>
+                <input type="text" id="myinvcode">
+            </div>
+        </form>
+        <div class="ui-border-b sa ">
+            <label style="margin-left: 2px;">
+                二维码
+            </label><br/>
+            <!--<img src="" id="myinvcodeurl">-->
+        </div>
+    </div>
+
+    <div id="code" style="margin-top: 10px;margin-left:10px;"></div>
+</section>
+<!--<a href="javascript:void(0)" class="button">保存</a>-->
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.qrcode.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script src="js/layerjs/layer.js"></script>
+
+
+<script>
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for (i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+    var userid = $.query.get('userid');
+    var layer = new Layer();
+    layer.getuser({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#nickname').text(data.data.nickname);
+                $('#userflag').html('<span></span>' + data.data.userflag);
+                $('#points').text(data.data.points);
+                $('#headimg').attr('src', data.data.headimgurl);
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    layer.getmyinvcode({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#myinvcode').val(data.data.myinvcode);
+                /*$('#myinvcodeurl').attr('src',data.data.url);*/
+                var str = toUtf8(data.data.url);
+                //alert(str);
+                $("#code").qrcode({
+                    render: "canvas", //table  canvas
+                    width: 200, //宽度
+                    height: 200, //高度
+                    text: str //任意内容
+                });
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+</script>
+</html>

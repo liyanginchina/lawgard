@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>在线视频</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+
+
+    <!-- Chang URLs to wherever Video.js files will be hosted -->
+    <link href="../js/videojs/video-js.css" rel="stylesheet" type="text/css">
+    <!-- video.js must be in the <head> for older IEs to work. -->
+    <script src="../js/videojs/video.js"></script>
+
+    <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+    <script>
+        videojs.options.flash.swf = "../js/videojs/video-js.swf";
+    </script>
+
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div class="page" id='router_video'>
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="minicourses.html">
+            <span class="icon icon-left"></span>
+            返回
+        </a>
+        <!--    <a class="icon icon-refresh pull-right"></a>-->
+        <h1 class="title">在线视频</h1>
+    </header>
+
+    <!--http://placeholder.qiniudn.com/580x240-->
+    <div class="content">
+        <div class="card facebook-card">
+            <!--<div class="card-header no-border">
+                <div class="facebook-avatar"><img src="http://placeholder.qiniudn.com/80x80" width="34" height="34"></div>
+                <div class="facebook-name">马辕进</div>
+                <div class="facebook-date">2016/12/17</div>
+            </div>-->
+            <div class="card-content-inner">
+                <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="100%"
+                       poster=""
+                       data-setup='{"controls": true, "autoplay": false, "preload": "auto","fullscreen":true  }'>
+                    <!--<source id="video" type='video/mp4' src="http://115.231.144.56/8/x/n/v/m/xnvmrtfynbawpojsepwudasdgehikl/hc.yinyuetai.com/4E7701517C86B1F1E912FE20779CBB91.flv?sc=7ecb04ca9debfb9f&br=782&vid=2443335&aid=860&area=ML&vst=3&ptp=mv&rd=yinyuetai.com" />-->
+                </video>
+                <!-- <p>
+                     马辕进《公益诉讼系列讲座》<br/>
+                     这里进行相关的视频描述...
+                 </p>-->
+            </div>
+            <!--  <div class="card-footer no-border">
+                  <a href="#" class="link">赞</a>
+                  <a href="#" class="link">评论</a>
+              </div>-->
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../js/layerjs/layer.js"></script>
+<script>
+    var layer = new Layer();
+
+    var params = layer.getparams();
+
+    var fileurl = params['fileurl'];
+    var uid = params['userid'];
+    var courseid = params['courseid'];
+
+    //'http://115.231.144.56/8/x/n/v/m/xnvmrtfynbawpojsepwudasdgehikl/hc.yinyuetai.com/4E7701517C86B1F1E912FE20779CBB91.flv?sc=7ecb04ca9debfb9f&br=782&vid=2443335&aid=860&area=ML&vst=3&ptp=mv&rd=yinyuetai.com';// $.query.get('fileurl');
+    var myPlayer = videojs('example_video_1');
+
+    videojs("example_video_1").ready(function () {
+        var myPlayer = this;
+        myPlayer = myPlayer.src(fileurl);
+        myPlayer.play();
+
+        //播放日志记录
+        layer.savecourserecord({userid: uid, courseid: courseid}, {
+            callback: function (data) {
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

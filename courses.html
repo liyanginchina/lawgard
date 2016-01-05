@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width,initial-scale=0.5,minimum-scale=0.5,maximum-scale=0.5,user-scalable=yes">
+    <meta name="format-detection" content="telephone=no;email=no;">
+    <title>大律士学习课程</title>
+</head>
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script src="js/layerjs/layer.js"></script>
+
+<body>
+<div id="blackDiv" class="">
+
+    <div class="top_box b_line" id="topDiv">
+        <div class="top_left"><a href="javascript:chooseType();"><img src="images/nav.png"></a></div>
+        <div class="top_cen">所有分类</div>
+    </div>
+
+    <!-- 导航目录 -->
+    <div class="nav_box tree_flag" style="display: none;" id="typeDiv">
+        <p class="nav_h3 b_line">课程分类</p>
+        <ul class="nav_ul mar-t10">
+            <li><a href="javascript:;" data-id="" class="a_visited">所有分类</a></li>
+            <li><a href="javascript:;" data-id="23">律师菜鸟</a></li>
+            <li><a href="javascript:;" data-id="2">劳动权益</a></li>
+            <li><a href="javascript:;" data-id="3">婚姻生活</a></li>
+
+            <li><a href="javascript:;" data-id="4">租房住房</a></li>
+            <li><a href="javascript:;" data-id="5">交通侵权</a></li>
+            <li><a href="javascript:;" data-id="6">投资创业</a></li>
+        </ul>
+    </div><!--nav_box-->
+</div>
+
+
+<div class="list_box" id="contentDiv">
+    <dl class="list_dl b_line">
+        <dd><img src="images/empty.png" class="preimg"></dd>
+        <dt>
+        <p class="_title"></p>
+        <p class="_introduce"></p>
+        <p class="list_time">
+            <span style="margin-right:15px;" class="_typename"></span>
+            <span class="_date"></span>
+            <span class="read mar-l15 _totalhits">0</span>
+        </p>
+        </dt>
+    </dl>
+</div>
+<div style="text-align: center;padding-top: 10px; display: none;" id="tips">暂无内容</div>
+<a href="javascript:;" class="load_box" id="add_more_btn">加载更多...</a>
+</body>
+<script>
+
+
+    //分类菜单下拉选择
+    var isOpen = false;
+    /**
+     * 菜单分类选择
+     * @return
+     */
+    function chooseType() {
+        if (!isOpen) {
+            $(".tree_flag").show();
+            isOpen = true;
+            $("#blackDiv").addClass("hei");
+            ;
+        } else {
+            $(".tree_flag").hide();
+            isOpen = false;
+            $("#blackDiv").removeClass("hei");
+            ;
+        }
+    }
+
+    /**
+     * 显示搜索条
+     * @return
+     */
+    function showSearch() {
+        //关闭分类菜单
+        $(".tree_flag").hide();
+        isOpen = false;
+
+        //主导航栏隐藏
+        $("#topDiv").hide();
+
+        //搜索条显示
+        $("#searchDiv").show();
+        $("#blackDiv").addClass("hei");
+
+        $(".sear_input").focus();
+    }
+
+    /**
+     * 隐藏搜索条
+     * @return
+     */
+    function hideSearch() {
+        //搜索条隐藏
+        $("#searchDiv").hide();
+        $("#blackDiv").removeClass("hei");
+
+        //主导航栏隐藏
+        $("#topDiv").show();
+    }
+
+
+    /*调用菜单栏隐藏*/
+    $(function () {
+        var userid = $.query.get('userid');
+        var layer = new Layer();
+        var g_courseid = '';
+
+        var pageno = 1;
+        var pagesize = 10;
+
+        $('#contentDiv dl:eq(0)').hide();
+
+        $(".nav_ul li a").click(function () {
+            $('.top_cen').html($(this).html());
+            g_courseid = $(this).attr('data-id');
+            typeSelectd($(this).attr('data-id'), $(this));
+        });
+
+        getcourselist('', false);
+
+
+        //保存课程播放记录
+        function savecourserecord(userid, courseid) {
+            var _data = {};
+            _data.userid = userid;
+            _data.courseid = courseid;
+            var layer = new Layer();
+            layer.savecourserecord(_data, {
+                callback: function (data) {
+                }
+            });
+        };
+
+        function getcourselist(typeid, append) {
+            $('#tips').hide();
+            if (!append) {
+                $('#contentDiv dl:gt(0)').remove();
+            }
+            layer.getcourselist({userid: userid, typeid: typeid, pagesize: pagesize, pageno: pageno}, {
+                callback: function (data) {
+                    if (data.msgCode === 400) {
+                        if (data.data != null && data.data.datalist != null) {
+                            if (data.data.datalist.length > 0) {
+                                $(data.data.datalist).each(function (idx, item) {
+                                    var list = $('#contentDiv dl:eq(0)').clone();
+                                    if (item.imgurl != null && item.imgurl.length > 0) {
+                                        list.find('.preimg').attr('src', item.imgurl);
+                                    }
+                                    list.find('._title').html(item.title);
+                                    list.attr('title', item.title);
+                                    list.find('._introduce').html(item.introduce);
+                                    list.find('._typename').html(item.typename);
+                                    list.find('._totalhits').text(item.totalhits + '　');
+                                    var date = list.find('._date').text(item.date + '　');
+                                    if (date.html().length == 0) date.hide();
+                                    list.attr('courseid', item.courseid);
+                                    list.attr('filetype', item.filetype);
+                                    list.attr('fileurl', item.fileurl);
+                                    list.appendTo($('#contentDiv')).show();
+                                });
+                                if (data.data.pagetotal === data.data.pageno) {
+                                    $('.load_box').hide();
+                                } else {
+                                    $('.load_box').show();
+                                }
+                            } else {
+                                if (data.data.pagetotal === data.data.pageno) {
+                                    $('#tips').hide();
+                                }
+                                $('.load_box').hide();
+                            }
+                            $("#contentDiv dl").click(function () {
+                                var filetype = $(this).attr('filetype');
+                                var url = "js/videojs/video.html?fileurl=" + encodeURIComponent($(this).attr('fileurl')) + '&userid=' + userid + '&courseid=' + $(this).attr('courseid') + '&title=' + encodeURIComponent($(this).attr('title'));
+                                savecourserecord(userid, $(this).attr('courseid'));
+                                if (filetype == 2) {
+                                    location.href = url;
+                                } else {
+                                    location.href = $(this).attr('fileurl');
+                                }
+                            });
+                        }
+                    }
+                    else if (data.msgCode === 401) {
+                        $('.load_box').hide();
+                        $('#tips').show();
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+
+        /**
+         * 分类菜单选择
+         * @param type
+         * @return
+         */
+        function typeSelectd(courseid, obj) {
+            //菜单栏隐藏
+            $(".tree_flag").hide();
+            $("#blackDiv").removeClass("hei");
+            isOpen = false;
+
+            //搜索条内容初始化
+            $(".sear_input").val("");
+
+            $(".a_visited").removeClass("a_visited");
+            $(obj).addClass("a_visited");
+
+            pageno = 1;
+            getcourselist(courseid, false);
+            /*searchNews(type,"","",0);*/
+        }
+
+        $('#add_more_btn').click(function () {
+            pageno = pageno + 1;
+            getcourselist(g_courseid, true);
+        });
+    })
+</script>
+</html>

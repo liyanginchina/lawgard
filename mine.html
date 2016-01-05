@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>成为会员</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+</head>
+<body>
+
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div class="content">
+    <div class="header">
+        <div class="photo"><img src="images/photo.jpg" id="headimg"></div>
+        <div class="header_right">
+            <p>昵称：<span id="nickname"></span></p>
+            <p class="vip" id="userflag"><span></span>普通会员</p>
+            <p>积分数：<span id="points"></span></p>
+        </div>
+    </div>
+    <ul class="messageList">
+        <li><a href="javascript:void(0);"><span><img src="images/userinfo.svg"></span>基本信息<i></i></a></li>
+        <li><a href="javascript:void(0);"><span><img src="images/usercard.svg"></span>证件信息<i></i></a></li>
+        <li><a href="javascript:void(0);"><span><img src="images/qrcode.svg"></span>我的邀请码<i></i></a></li>
+        <li><a href="javascript:void(0);"><span><img src="images/rmb.svg"></span>我要充值<i></i></a></li>
+        <li><a href="javascript:void(0);"><span><img src="images/vip.svg"></span>升级VIP<i></i></a></li>
+    </ul>
+</div>
+</body>
+
+<!--  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.query-2.1.7.js"></script>-->
+<script src="js/layerjs/layer.js"></script>
+<script>
+    $(function () {
+
+        var layer = new Layer();
+        var params = layer.getparams();
+        var userid = params['userid'];
+
+        //用户等级 0=普通 1=初级 2=中级 3=高级
+        var userflagid = '';
+        var points = 0;
+        layer.getuser({userid: userid}, {
+            callback: function (data) {
+                if (data.msgCode === 300) {
+                    $('#nickname').text(data.data.nickname);
+                    $('#userflag').html('<span></span>' + data.data.userflag);
+                    $('#points').text(data.data.points);
+                    $('#headimg').attr('src', data.data.headimgurl);
+
+                    userflagid = data.data.userflagid;
+                    points = data.data.points;
+
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+
+        $('.messageList li').click(function () {
+            var idx = $('.messageList li').index($(this));
+            switch (idx) {
+                case 0:
+                    location.href = 'userinfo.html?userid=' + userid;
+                    break;
+                case 1:
+                    location.href = 'licence.html?userid=' + userid;
+                    break;
+                case 2:
+                    location.href = 'qrcode.html?userid=' + userid;
+                    break;
+                case 3:
+                    location.href = 'pay.html?userid=' + userid;
+                    break;
+                case 4:
+                    if (userflagid == 3) {
+                        $.toast('您已经是高级会员，不需要升级。');
+                        return;
+                    }
+                    location.href = 'viplist.html?userid=' + userid + '&userflagid=' + userflagid + '&points=' + points;
+                    break;
+            }
+        });
+    });
+
+
+</script>
+</html>

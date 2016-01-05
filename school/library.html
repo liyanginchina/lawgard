@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图书馆</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+    <style type="text/css">
+        .infinite-scroll-preloader {
+            margin-top: 0px;
+        }
+
+        .list-block {
+            margin: 0.25rem 0;
+        }
+    </style>
+
+</head>
+<>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+
+<div class="panel-overlay"></div>
+
+<div class="panel panel-left panel-reveal">
+    <div class="content-block" id="typelist">
+        <!--   <p><a href="#" class="close-panel">分类一</a></p>
+
+           <p><a href="#" class="close-panel">分类二</a></p>
+
+           <p><a href="#" class="close-panel">分类三</a></p>
+
+           <p><a href="#" class="close-panel">分类四</a></p>
+
+           <p><a href="#" class="close-panel">分类五</a></p>
+
+           <p><a href="#" class="close-panel">分类六</a></p>-->
+    </div>
+</div>
+
+<!-- page 容器 -->
+<div class="page">
+    <!-- 标题栏 -->
+    <header class="bar bar-nav">
+        <a class="icon icon-menu pull-left open-panel"></a>
+
+        <h1 class="title">图书馆</h1>
+    </header>
+
+    <!-- 工具栏 -->
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">训练营</span>
+        </a>
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-clock"></span>
+            <span class="tab-label">微课堂</span>
+        </a>
+        <a class="tab-item external active" href="javascript:void(0);">
+            <span class="icon icon-app"></span>
+            <span class="tab-label">图书馆</span>
+        </a>
+    </nav>
+
+    <!-- 添加 class infinite-scroll 和 data-distance  向下无限滚动可不加infinite-scroll-bottom类，这里加上是为了和下面的向上无限滚动区分-->
+    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="100">
+        <div class="list_lib">
+
+        </div>
+        <!-- 加载提示符 -->
+        <div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<script src="../js/layerjs/layer.js"></script>
+<script>
+
+
+    var layer = new Layer();
+
+    var params = layer.getparams();
+    var token = params['token'];
+    var uid = params['userid'];
+
+
+    $.init();
+
+    //当前页
+    var pageno = 1;
+
+    //页大小
+    var pagesize = 5;
+
+    //总页数
+    var pagetotal = 0;
+
+    // 加载flag
+    var loading = false;
+
+
+    var typeid = '';
+
+
+    $('.panel-left a').live('click', function () {
+        typeid = $(this).attr('data-id');
+        pageno = 1;
+        $('.infinite-scroll-bottom .list_lib').html('');
+        addItems();
+        $('.title').html($(this).text());
+
+        $('.panel-left a').css('color', '#0894ec');
+        $(this).css('color', '#F3F4F6');
+    });
+
+    //获取分类
+    layer.getselcode({typename: 'book_type'}, {
+        callback: function (data) {
+            if (data.msgCode === 400) {
+                var html = '';
+                html += '<p><a href="#" class="close-panel" data-id="" style="color:#F3F4F6;">所有分类</a></p>';
+                $.each(data.data, function (idx, item) {
+                    html += '<p><a href="#" class="close-panel" data-id="' + item.id + '">' + item.codename + '</a></p>';
+                });
+                $('#typelist').html(html);
+            } else {
+                $.toast(data.message);
+            }
+        }
+    });
+
+    function addItems() {
+        // 生成新条目的HTML
+        var html = '';
+
+        layer.getbooks({token: token, typeid: typeid, pageno: pageno, pagesize: pagesize}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    pagetotal = data.data.pagetotal;
+
+                    if (data.data != null && data.data.datalist != null) {
+                        if (data.data.datalist.length > 0) {
+                            $(data.data.datalist).each(function (idx, item) {
+
+                                html += '<div class="card  confirm-title-ok" data-bookid="' + item.bookid + '" data-format="' + item.format + '" data-orderflag="' + item.orderflag + '" data-points="' + item.points + '">' +
+                                        '<div class="card-content">' +
+                                        '<div class="list-block media-list">' +
+                                        '<ul>' +
+                                        '<li class="item-content">' +
+                                        '<div class="item-media">' +
+                                        '<img src="../images/' + item.format + '.svg" width="44">' +
+                                        '</div>' +
+                                        '<div class="item-inner">' +
+                                        '<div class="item-text">' + item.title + '</div>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="card-footer">' +
+                                        '<span class="icon icon-app">' + item.typename + '</span>' +
+                                        '<span class="icon icon-me">' + item.totalhits + '</span>' +
+                                        '<span class="icon icon-cart">' + item.points + '</span>' +
+                                        '</div>' +
+                                        '</div>';
+                            });
+                            // 添加新条目
+                            $('.infinite-scroll-bottom .list_lib').append(html);
+
+                            if (pageno >= pagetotal) {
+                                // 加载完毕，则注销无限加载事件，以防不必要的加载
+                                $.detachInfiniteScroll($('.infinite-scroll'));
+                                // 删除加载提示符
+                                $('.infinite-scroll-preloader').remove();
+                                return;
+                            }
+
+                            pageno = pageno + 1;
+
+                            // 重置加载flag
+                            loading = false;
+                        }
+                    }
+
+
+                } else {
+                    $.detachInfiniteScroll($('.infinite-scroll'));
+                    $('.infinite-scroll-preloader').remove();
+                    $.toast(data.message);
+                    //alert(data.message);
+                }
+            }
+        });
+    }
+    //预先加载20条
+    addItems();
+
+    // 注册'infinite'事件处理函数
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        // 如果正在加载，则退出
+        if (loading) return;
+
+        // 设置flag
+        loading = true;
+
+
+        // 重置加载flag
+        //loading = false;
+
+        if (pageno > pagetotal) {
+            // 加载完毕，则注销无限加载事件，以防不必要的加载
+            $.detachInfiniteScroll($('.infinite-scroll'));
+            // 删除加载提示符
+            $('.infinite-scroll-preloader').remove();
+            return;
+        }
+
+        // 添加新条目
+        addItems();
+        //容器发生改变,如果是js滚动，需要刷新滚动
+        $.refreshScroller();
+
+    });
+
+    $('.tab-item').click(function () {
+        if ($(this).hasClass('active')) {
+            return;
+        } else {
+            var idx = $(this).index();
+            switch (idx) {
+                case 0:
+                    location.href = "lawyerschool.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+                case 1:
+                    location.href = "minicourses.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+                case 2:
+                    location.href = "library.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+            }
+        }
+    });
+
+    $(document).on('click', '.confirm-title-ok', function () {
+        var _orderflag = $(this).attr('data-orderflag');
+        var _points = $(this).attr('data-points');
+        var _format = $(this).attr('data-format');
+        var _bookid = $(this).attr('data-bookid');
+
+        console.log(_orderflag);
+        console.log(_points);
+        console.log(_format);
+        console.log(_bookid);
+
+        //获取用户积分
+        layer.getuserpoints({token: token}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    //用户当前剩余积分
+                    var points = parseInt(data.data);
+                    //需要购买
+                    if (_points != 0 && _orderflag == 0) {
+                        if (points >= _points) {
+                            $.confirm('该课程需要积分：' + _points + '，您当前积分值为' + points + '，是否确定购买？', '温馨提示', function () {
+                                //购买课程
+                                layer.submitorderbook({token: token, bookid: _bookid}, {
+                                    callback: function (data) {
+                                        if (data.msgCode === 270 || data.msgCode === -272) {
+                                            //获取资源链接地址
+                                            getorderbookurl(_bookid);
+                                        } else {
+                                            $.toast(data.message);
+                                        }
+                                    }
+                                });
+
+                            });
+                        } else if (points < _points) {
+                            $.alert('该课程需要积分：' + _points + '，您当前积分值为' + points + '，您的积分不够，请充值！');
+                        }
+                    }
+                    else if (_points == 0 || _orderflag == 1) {
+                        //获取资源链接地址
+                        getorderbookurl(_bookid);
+                    }
+                } else {
+                    $.toast(data.message);
+                }
+            }
+        });
+    });
+
+
+    function getorderbookurl(bookid) {
+
+        location.href = "predoc.html?token=" + token + "&bookid=" + bookid;
+    }
+
+</script>
+</html>

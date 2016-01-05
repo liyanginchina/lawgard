@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" href="css/frozen.css">
+    <link rel="stylesheet" href="css/global.css">
+    <title>成为会员</title>
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div class="photo"><img src="images/photo.jpg" id="headimg"></div>
+        <div class="header_right">
+            <p>昵称：<span id="nickname"></span></p>
+            <p class="vip" id="userflag"><span></span>普通会员</p>
+            <p>积分数：<span id="points"></span></p>
+        </div>
+    </div>
+</div>
+<div class="ui-tooltips-vip">
+    <div class="ui-tooltips-cnt">
+        <i class="ui-icon-personal"></i>
+        <span>基本信息</span>
+        <button class="ui-btn-vip" id="btn_save">保存</button>
+    </div>
+</div>
+<section class="ui-panel ">
+    <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    真实姓名
+                </label>
+                <input type="text" placeholder="请输入真实姓名" id="realname">
+                </a>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>性别</label>
+                <div class="ui-select">
+                    <select id="sexselect">
+                        <option selected value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui-form-item ui-form-item-l ui-border-b">
+                <label class="ui-border-r">
+                    中国 +86
+                </label>
+                <input type="text" placeholder="请输入手机号码" id="phone">
+                </a>
+            </div>
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    身份证号码
+                </label>
+                <input type="text" placeholder="18位身份证号码" id="idcardno">
+                </a>
+            </div>
+
+            <div class="ui-form-item ui-border-b">
+                <label>学历</label>
+                <div class="ui-select">
+                    <select id="eduselect">
+                        <option value="0" selected>请选择</option>
+                        <option value="18">中专/高中/中技</option>
+                        <option value="19">专科</option>
+                        <option value="20">本科</option>
+                        <option value="21">硕士研究生</option>
+                        <option value="22">博士研究生</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!--<a href="javascript:void(0)" class="button">保存</a>-->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script src="js/layerjs/layer.js"></script>
+<script>
+    var userid = $.query.get('userid');
+    var layer = new Layer();
+    layer.getuser({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#nickname').text(data.data.nickname);
+                $('#userflag').html('<span></span>' + data.data.userflag);
+                $('#points').text(data.data.points);
+                $('#headimg').attr('src', data.data.headimgurl);
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    layer.getuserinfo({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#realname').val(data.data.realname);
+                $('#phone').val(data.data.phone);
+                $('#idcardno').val(data.data.idcardno);
+                /*$('#sexselect option[value="'+data.data.sex+'"]').attr("selected", 'selected');
+                 $('#eduselect option[value="'+data.data.eduid+'"]').attr("selected", 'selected');*/
+                $('#sexselect').val(parseInt(data.data.sex));
+                $('#eduselect').val(parseInt(data.data.eduid));
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    //保存用户基本信息
+    $('#btn_save').click(function () {
+        var _data = {};
+        _data.userid = userid;
+        _data.realname = $('#realname').val();
+        _data.sex = parseInt($('#sexselect').val());
+        _data.phone = $('#phone').val();
+        _data.idcardno = $('#idcardno').val();
+        _data.eduid = parseInt($('#eduselect').val());
+
+        layer.updateuserinfo(_data, {
+            callback: function (data) {
+                if (data.msgCode === 250) {
+                    alert('修改成功');
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

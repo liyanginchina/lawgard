@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>微课堂</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.5.7/css/sm-extend.min.css">
+    <style>
+        .swiper-container {
+            padding-bottom: 0px;
+        }
+
+        .list-block .item-content {
+            padding-left: 0.1rem;
+        }
+
+        .list-block .item-media + .item-inner {
+            margin-left: .3rem;
+        }
+
+        .list-block .item-link .item-inner {
+            padding-right: 0.2rem;
+            background-image: none;
+        }
+
+        .list-block {
+            margin: 0.3rem 0;
+        }
+
+        .card-footer {
+            min-height: 0rem;
+            position: static;
+            padding: 0.2rem .5rem;
+            margin-top: 0.4rem;
+            font-size: .7rem;
+        }
+    </style>
+</head>
+<body>
+<!-- 你的html代码 -->
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.5.7/js/sm-extend.min.js' charset='utf-8'></script>
+
+<div class="panel-overlay"></div>
+
+<div class="panel panel-left panel-reveal" id="panel-left">
+    <div class="content-block">
+        <p><a href="#" class="close-panel" data-id="">所有分类</a></p>
+
+        <p><a href="#" class="close-panel" data-id="23">律师菜鸟</a></p>
+
+        <p><a href="#" class="close-panel" data-id="2">劳动权益</a></p>
+
+        <p><a href="#" class="close-panel" data-id="3">婚姻生活</a></p>
+
+        <p><a href="#" class="close-panel" data-id="4">租房住房</a></p>
+
+        <p><a href="#" class="close-panel" data-id="5">交通侵权</a></p>
+
+        <p><a href="#" class="close-panel" data-id="6">投资创业</a></p>
+    </div>
+</div>
+
+<div class="panel panel-right panel-reveal" id="panel-right">
+    <div class="content-block">
+        <p><a href="#" class="close-panel" id="btn_startlearn">我要开课</a></p>
+
+        <p><a href="#" class="close-panel" id="btn_onlinecourse">在线课堂</a></p>
+    </div>
+</div>
+
+<div class="page" id='router_minicourses'>
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">训练营</span>
+        </a>
+        <a class="tab-item external active" href="javascript:void(0);">
+            <span class="icon icon-clock"></span>
+            <span class="tab-label">微课堂</span>
+        </a>
+        <a class="tab-item external" href="javascript:void(0);">
+            <span class="icon icon-app"></span>
+            <span class="tab-label">图书馆</span>
+        </a>
+    </nav>
+
+
+    <header class="bar bar-nav">
+        <a class="icon icon-menu pull-left open-panel" data-panel='#panel-left'></a>
+
+        <h1 class="title">微课堂</h1>
+
+        <a class="icon icon-friends pull-right open-panel" data-panel='#panel-right'></a>
+    </header>
+    <!--
+        <div class="content">
+            <div class="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/wykk.jpg" alt="" style='width: 100%'></div>
+                    <div class="swiper-slide"><img src="http://placeholder.qiniudn.com/320x160" alt="" style='width: 100%'></div>
+                    <div class="swiper-slide"><img src="http://placeholder.qiniudn.com/320x160" alt="" style='width: 100%'></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80" style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80" style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80" style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>-->
+
+    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="100">
+        <div class="swiper-container" data-space-between='10'>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads1.jpg" alt="" style='width: 100%'></div>
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads2.jpg" alt="" style='width: 100%'>
+                </div>
+                <div class="swiper-slide"><img src="http://wx.lawgard.cn/img/ads3.jpg" alt="" style='width: 100%'>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+
+        <div class="list_lib">
+            <!--<div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block media-list confirm-title-ok">
+                <ul>
+                    <li>
+                        <a href="#" class="item-link item-content">
+                            <div class="item-media"><img src="http://placeholder.qiniudn.com/120x80"
+                                                         style='width: 6rem;height: 4rem;'></div>
+                            <div class="item-inner">
+                                <div class="item-text">此处是文本内容,上市企业最新优惠政策申请实务,上市企业最新优惠政策申请实务</div>
+                                <div class="card-footer">
+                                    <span class="icon icon-clock">17:45</span>
+                                    <span class="icon icon-me">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+
+        <!-- 加载提示符 -->
+        <div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/layerjs/layer.js"></script>
+<script>
+
+    var layer = new Layer();
+
+    var params = layer.getparams();
+    var uid = params["userid"];
+    var token = params["token"];
+
+
+    $.init();
+    $('#btn_startlearn,#btn_onlinecourse').click(function () {
+        $.toast("正在建设中...  敬请关注");
+    });
+
+    function getresourceurl(filetype, courseid) {
+
+        layer.getordercourseurl({token: token, courseid: courseid}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    var fileurl = data.data;
+
+                    //图文
+                    if (filetype == '1') {
+                        //日志记录
+                        layer.savecourserecord({userid: uid, courseid: courseid}, {
+                            callback: function (data) {
+
+                            }
+                        });
+                        location.href = fileurl;
+                    }
+                    //视频
+                    else if (filetype == '2') {
+                        location.href = 'video.html?userid=' + uid + '&courseid=' + courseid + '&fileurl=' + fileurl;
+                    }
+
+                } else {
+                    $.toast(data.message);
+                }
+            }
+        });
+    }
+
+    //$.swiper($('.swiper-container'), {loop:true,autoplay:3000});
+
+    $(document).on('click', '.confirm-title-ok', function () {
+        var _orderflag = $(this).attr('data-orderflag');
+        var _points = $(this).attr('data-points');
+        var _filetype = $(this).attr('data-filetype');
+        var _courseid = $(this).attr('data-courseid');
+
+        //获取用户积分
+        layer.getuserpoints({token: token}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    //用户当前剩余积分
+                    var points = parseInt(data.data);
+                    //需要购买
+                    if (_points != 0 && _orderflag == 0) {
+                        if (points >= _points) {
+                            $.confirm('该课程需要积分：' + _points + '，您当前积分值为' + points + '，是否确定购买？', '温馨提示', function () {
+                                //购买课程
+                                layer.submitordercourse({token: token, courseid: _courseid}, {
+                                    callback: function (data) {
+                                        if (data.msgCode === 270 || data.msgCode === -272) {
+                                            //获取资源链接地址
+                                            getresourceurl(_filetype, _courseid);
+                                        } else {
+                                            $.toast(data.message);
+                                        }
+                                    }
+                                });
+
+                            });
+                        } else if (points < _points) {
+                            $.alert('该课程需要积分：' + _points + '，您当前积分值为' + points + '，您的积分不够，请充值！');
+                        }
+                    }
+                    else if (_points == 0 || _orderflag == 1) {
+                        //获取资源链接地址
+                        getresourceurl(_filetype, _courseid);
+                    }
+                } else {
+                    $.toast(data.message);
+                }
+            }
+        });
+    });
+
+
+    var typeid = '';
+    $('#panel-left a').eq(0).css('color', '#F3F4F6');
+
+    $('#panel-left a').click(function () {
+        typeid = $(this).attr('data-id');
+        pageno = 1;
+        $('.infinite-scroll-bottom .list_lib').html('');
+        addItems();
+        $('.title').html($(this).text());
+
+        $('#panel-left a').css('color', '#0894ec');
+        $(this).css('color', '#F3F4F6');
+    });
+
+
+    //当前页
+    var pageno = 1;
+
+    //页大小
+    var pagesize = 5;
+
+    //总页数
+    var pagetotal = 0;
+
+    // 加载flag
+    var loading = false;
+
+    function addItems() {
+        // 生成新条目的HTML
+        var html = '';
+
+        layer.getsmallcourse({token: token, typeid: typeid, pageno: pageno, pagesize: pagesize}, {
+            callback: function (data) {
+                if (data.msgCode === 400) {
+                    pagetotal = data.data.pagetotal;
+
+                    if (data.data != null && data.data.datalist != null) {
+                        if (data.data.datalist.length > 0) {
+                            $(data.data.datalist).each(function (idx, item) {
+                                html += '<div class="list-block media-list confirm-title-ok" data-courseid="' + item.courseid + '" data-filetype="' + item.filetype + '" data-orderflag="' + item.orderflag + '" data-points="' + item.points + '">' +
+                                        '<ul>' +
+                                        '<li>' +
+                                        '<a href="#" class="item-link item-content">' +
+                                        '<div class="item-media"><img src="' + item.imgurl + '" style="width: 6rem;height: 4rem;"></div>' +
+                                        '<div class="item-inner">' +
+                                        '<div class="item-text">' + item.title + '</div>' +
+                                        '<div class="card-footer">' +
+                                        '<span class="icon icon-clock">' + item.duration + '</span>' +
+                                        '<span class="icon icon-me">' + item.totalhits + '</span>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</a>' +
+                                        '</li>' +
+                                        '</ul>' +
+                                        '</div>';
+                            });
+                            // 添加新条目
+                            $('.infinite-scroll-bottom .list_lib').append(html);
+
+                            if (pageno >= pagetotal) {
+                                // 加载完毕，则注销无限加载事件，以防不必要的加载
+                                $.detachInfiniteScroll($('.infinite-scroll'));
+                                // 删除加载提示符
+                                $('.infinite-scroll-preloader').remove();
+                                return;
+                            }
+
+                            pageno = pageno + 1;
+                            // 重置加载flag
+                            loading = false;
+                        }
+                    }
+
+
+                } else {
+                    $.detachInfiniteScroll($('.infinite-scroll'));
+                    $('.infinite-scroll-preloader').remove();
+                    $.toast(data.message);
+                    //alert(data.message);
+                }
+            }
+        });
+
+
+    }
+    //预先加载
+    addItems();
+
+
+    // 注册'infinite'事件处理函数
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+
+        // 如果正在加载，则退出
+        if (loading) return;
+
+        // 设置flag
+        loading = true;
+
+
+        if (pageno > pagetotal) {
+            // 加载完毕，则注销无限加载事件，以防不必要的加载
+            $.detachInfiniteScroll($('.infinite-scroll'));
+            // 删除加载提示符
+            $('.infinite-scroll-preloader').remove();
+            return;
+        }
+
+        // 添加新条目
+        addItems();
+        // 更新最后加载的序号
+        lastIndex = $('.list-block').length;
+        //console.log(lastIndex);
+        //容器发生改变,如果是js滚动，需要刷新滚动
+        $.refreshScroller();
+
+    });
+
+    $('.tab-item').click(function () {
+        if ($(this).hasClass('active')) {
+            return;
+        } else {
+            var idx = $(this).index();
+            switch (idx) {
+                case 0:
+                    location.href = "lawyerschool.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+                case 1:
+                    location.href = "minicourses.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+                case 2:
+                    location.href = "library.html?userid=" + params['userid'] + "&userflag=" + params['userflag'] + "&token=" + params['token'];
+                    break;
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

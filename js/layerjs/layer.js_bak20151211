@@ -1,0 +1,65 @@
+/**
+ * Created by liyang on 15/12/5.
+ */
+var Layer=function(){
+    this.dns='http://api.lawgard.cn';
+};
+
+Layer.prototype={
+    getdata:function(url, _data, callback) {
+        $.ajax({
+            url: url,
+            data: _data,
+            dataType: "jsonp",
+            success: callback,
+            error: function() {
+                console.error("error")
+            }
+        })
+    },
+    getuser:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/getuser',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    getuserinfo:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/getuserinfo',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    getlawyerinfo:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/getlawyerinfo',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    getmyinvcode:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/getmyinvcode',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    getcourselist:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/getcourselist',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    updateuserinfo:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/updateuserinfo',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    updatelawyerinfo:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/updatelawyerinfo',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    savecourserecord:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/savecourserecord',_data,function(data){
+            cb.callback(data);
+        });
+    },
+    savepayrecord:function(_data,cb){
+        this.getdata(this.dns+'/v1/user/savepayrecord',_data,function(data){
+            cb.callback(data);
+        });
+    }
+};

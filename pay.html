@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/public.css">
+    <link rel="stylesheet" href="css/frozen.css">
+    <link rel="stylesheet" href="css/global.css">
+    <title>我要充值</title>
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div class="photo"><img src="images/photo.jpg" id="headimg"></div>
+        <div class="header_right">
+            <p>昵称：<span id="nickname"></span></p>
+            <p class="vip" id="userflag"><span></span>普通会员</p>
+            <p>积分数：<span id="points"></span></p>
+        </div>
+    </div>
+</div>
+<div class="ui-tooltips-vip">
+    <div class="ui-tooltips-cnt">
+        <img src="images/rmb.png" style="padding-top:6px;">
+    </div>
+</div>
+<section class="ui-panel ">
+    <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-border-b">
+                <label>
+                    充值积分数：
+                </label>
+                <input type="text" placeholder="请输入金额" id="money" onblur="checkNum(this)">
+            </div>
+            <div class="ui ui-border-b">
+                <p style="color:red;padding-left:10px;">
+                    重要说明：1积分=1元人民币，由于积分获取有多个途径，所以积分不能兑换现金，充值后不能退款，不能提现！
+                </p>
+            </div>
+            <div class="ui-form-item ui-border-b" style="text-align:center;">
+                <a class="ui-btn-vip" style="vertical-align:middle;" id="btn_save" onclick="pay()">　　下一步　　</a>
+            </div>
+        </form>
+    </div>
+</section>
+<!--<a href="javascript:void(0)" class="button">保存</a>-->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.query-2.1.7.js"></script>
+<script src="js/layerjs/layer.js"></script>
+<script>
+    var userid = $.query.get('userid');
+    var layer = new Layer();
+    layer.getuser({userid: userid}, {
+        callback: function (data) {
+            if (data.msgCode === 300) {
+                $('#nickname').text(data.data.nickname);
+                $('#userflag').html('<span></span>' + data.data.userflag);
+                $('#points').text(data.data.points);
+                $('#headimg').attr('src', data.data.headimgurl);
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+
+    function isPositiveNum(s) {//是否为正整数
+        var re = /^[0-9]*[1-9][0-9]*$/;
+        return re.test(s)
+    }
+
+    function checkNum(obj) {
+        if (!isPositiveNum($(obj).val())) {
+            alert("输入的金额错误！");
+        }
+    }
+
+    function pay() {
+        if ($("#money").val() == "") {
+            alert("请输入金额！");
+            return;
+        }
+
+        if (!isPositiveNum($("#money").val())) {
+            alert("输入的金额错误！");
+            return;
+        }
+
+        var userid = $.query.get('userid');
+        var url = "http://wx.lawgard.cn/api/v1/wxpay/doPay?userid=" + userid + "&money=" + $("#money").val() + "&desc=积分充值";
+
+        self.location = url;
+
+    }
+
+</script>
+</body>
+</html>
